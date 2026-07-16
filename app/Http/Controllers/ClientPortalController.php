@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\Subscription\Actions\ActivateSimulatedPurchase;
 use App\Models\Plan;
 use App\Models\Site;
+use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -45,5 +46,15 @@ class ClientPortalController extends Controller
         return redirect()
             ->route('client.success', [$site, $subscription])
             ->with('status', 'Votre accès Internet est activé.');
+    }
+
+    public function success(Site $site, Subscription $subscription): View
+    {
+        abort_unless($subscription->plan()->whereBelongsTo($site)->exists(), 404);
+
+        return view('client.success', [
+            'site' => $site,
+            'subscription' => $subscription->load(['plan', 'accessGrant']),
+        ]);
     }
 }
