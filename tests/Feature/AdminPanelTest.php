@@ -18,7 +18,9 @@ class AdminPanelTest extends TestCase
     {
         $this->get('/admin/sites')->assertRedirect('/admin/login');
         $this->get('/admin/plans')->assertRedirect('/admin/login');
+        $this->get('/admin/customers')->assertRedirect('/admin/login');
         $this->get('/admin/subscriptions')->assertRedirect('/admin/login');
+        $this->get('/admin/orders')->assertRedirect('/admin/login');
         $this->get('/admin/incidents')->assertRedirect('/admin/login');
     }
 }
