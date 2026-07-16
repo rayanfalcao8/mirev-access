@@ -54,6 +54,12 @@ class ActivateSimulatedPurchase
                 'expires_at' => now()->addMinutes($plan->validity_minutes),
             ]);
 
+            $subscription->transitions()->create([
+                'from_status' => null,
+                'to_status' => 'active',
+                'reason' => 'payment_confirmed',
+            ]);
+
             $grant = AccessGrant::query()->create([
                 'subscription_id' => $subscription->id,
                 'provider' => 'fake',
