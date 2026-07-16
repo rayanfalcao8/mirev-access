@@ -15,6 +15,16 @@ class Order extends Model
         return ['paid_at' => 'datetime'];
     }
 
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function subscription(): HasOne
     {
         return $this->hasOne(Subscription::class);
