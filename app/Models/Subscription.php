@@ -16,6 +16,16 @@ class Subscription extends Model
         return ['starts_at' => 'datetime', 'expires_at' => 'datetime'];
     }
 
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
