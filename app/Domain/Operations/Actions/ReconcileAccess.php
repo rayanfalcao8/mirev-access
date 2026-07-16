@@ -18,7 +18,7 @@ class ReconcileAccess
 
         Subscription::query()
             ->where('status', 'expired')
-            ->whereHas('accessGrant', fn ($query) => $query->whereNot('status', 'revoked'))
+            ->whereHas('accessGrant', fn ($query) => $query->where('status', '!=', 'revoked'))
             ->with('accessGrant')
             ->chunkById(100, function ($subscriptions) use (&$results) {
                 foreach ($subscriptions as $subscription) {
