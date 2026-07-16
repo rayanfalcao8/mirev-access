@@ -38,7 +38,7 @@
                 <label class="plan">
                     <input type="radio" name="plan_id" value="{{ $plan->id }}" required>
                     <h2>{{ $plan->name }}</h2>
-                    <div>{{ $plan->validity_minutes }} minutes d’accès</div>
+                    <div>{{ $plan->formatted_duration }} d’accès</div>
                     <div class="price">{{ number_format($plan->price_minor, 0, ',', ' ') }} {{ $site->currency }}</div>
                 </label>
             @empty
