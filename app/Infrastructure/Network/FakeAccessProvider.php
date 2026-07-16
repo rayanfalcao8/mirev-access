@@ -12,4 +12,9 @@ class FakeAccessProvider implements NetworkAccessProvider
     {
         return 'fake_'.Str::uuid();
     }
+
+    public function disconnect(AccessGrant $grant): void
+    {
+        //
+    }
 }
