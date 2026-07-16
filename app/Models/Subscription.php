@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Subscription extends Model
@@ -23,5 +24,10 @@ class Subscription extends Model
     public function accessGrant(): HasOne
     {
         return $this->hasOne(AccessGrant::class);
+    }
+
+    public function transitions(): HasMany
+    {
+        return $this->hasMany(SubscriptionTransition::class);
     }
 }
