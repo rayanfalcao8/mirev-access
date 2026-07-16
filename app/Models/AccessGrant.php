@@ -11,7 +11,10 @@ class AccessGrant extends Model
 
     protected function casts(): array
     {
-        return ['authorized_at' => 'datetime'];
+        return [
+            'authorized_at' => 'datetime',
+            'revoked_at' => 'datetime',
+        ];
     }
 
     public function subscription(): BelongsTo
