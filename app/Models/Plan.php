@@ -18,4 +18,21 @@ class Plan extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
+    public function getFormattedDurationAttribute(): string
+    {
+        if ($this->validity_minutes % 1440 === 0) {
+            $days = intdiv($this->validity_minutes, 1440);
+
+            return $days.' '.($days === 1 ? 'jour' : 'jours');
+        }
+
+        if ($this->validity_minutes % 60 === 0) {
+            $hours = intdiv($this->validity_minutes, 60);
+
+            return $hours.' h';
+        }
+
+        return $this->validity_minutes.' min';
+    }
 }
