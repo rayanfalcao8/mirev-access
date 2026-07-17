@@ -1,18 +1,16 @@
 <?php
 
 return [
+    'payments' => [
+        'default' => env('PAYMENT_PROVIDER', 'fake'),
+    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Third Party Services
-    |--------------------------------------------------------------------------
-    |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
-    |
-    */
+    'campay' => [
+        'base_url' => env('CAMPAY_BASE_URL', 'https://demo.campay.net/api/'),
+        'username' => env('CAMPAY_USERNAME'),
+        'password' => env('CAMPAY_PASSWORD'),
+        'webhook_key' => env('CAMPAY_WEBHOOK_KEY'),
+    ],
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
@@ -34,5 +32,4 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
 ];
