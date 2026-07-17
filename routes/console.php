@@ -12,6 +12,10 @@ Schedule::command('subscriptions:expire')
     ->everyMinute()
     ->withoutOverlapping();
 
+Schedule::command('payments:reconcile')
+    ->everyMinute()
+    ->withoutOverlapping();
+
 Schedule::command('network:reconcile')
     ->everyFiveMinutes()
     ->withoutOverlapping();
