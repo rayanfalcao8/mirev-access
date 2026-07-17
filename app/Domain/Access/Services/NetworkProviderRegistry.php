@@ -24,9 +24,12 @@ class NetworkProviderRegistry
 
     public function keys(): array
     {
-        return array_map(
-            fn (SiteNetworkProvider $provider): string => $provider->key(),
-            iterator_to_array($this->providers),
-        );
+        $keys = [];
+
+        foreach ($this->providers as $provider) {
+            $keys[] = $provider->key();
+        }
+
+        return $keys;
     }
 }
