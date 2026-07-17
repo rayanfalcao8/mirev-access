@@ -16,7 +16,7 @@ class ManageSubscription
     public function __construct(
         private readonly SubscriptionStateManager $states,
         private readonly RevokeAccessGrant $revoke,
-        private readonly NetworkAccessProvider $network,
+        private readonly NetworkProviderRegistry $providers,
     ) {}
 
     public function suspend(Subscription $subscription, ?int $actorId = null): Subscription
@@ -149,7 +149,7 @@ class ManageSubscription
 
         $grant->update([
             'status' => 'active',
-            'external_reference' => $this->network->authorize($grant),
+            'external_reference' => $this->providers->for($connection->provider)->authorize($grant, $connection),
             'authorized_at' => now(),
             'revoked_at' => null,
             'last_error' => null,
