@@ -3,7 +3,7 @@
 namespace App\Domain\Subscription\Actions;
 
 use App\Domain\Access\Actions\RevokeAccessGrant;
-use App\Domain\Access\Contracts\NetworkAccessProvider;
+use App\Domain\Access\Services\NetworkProviderRegistry;
 use App\Domain\Subscription\Services\SubscriptionStateManager;
 use App\Models\AccessGrant;
 use App\Models\Subscription;
@@ -139,8 +139,13 @@ class ManageSubscription
 
     private function authorize(Subscription $subscription): AccessGrant
     {
+        $connection = $subscription->plan->site->networkConnection()->firstOrCreate(
+            [],
+            ['provider' => 'fake', 'status' => 'unconfigured'],
+        );
+
         $grant = $subscription->accessGrant()->firstOrCreate([
-            'provider' => 'fake',
+            'provider' => $connection->provider,
         ]);
 
         if ($grant->status === 'active') {
