@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,6 +18,16 @@ return new class extends Migration
             $table->timestamp('last_tested_at')->nullable();
             $table->text('last_error')->nullable();
             $table->timestamps();
+        });
+
+        DB::table('sites')->orderBy('id')->each(function ($site): void {
+            DB::table('network_connections')->insert([
+                'site_id' => $site->id,
+                'provider' => 'fake',
+                'status' => 'unconfigured',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         });
     }
 
