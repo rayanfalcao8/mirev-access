@@ -2,7 +2,7 @@
 
 namespace App\Domain\Subscription\Actions;
 
-use App\Domain\Access\Contracts\NetworkAccessProvider;
+use App\Domain\Access\Services\NetworkProviderRegistry;
 use App\Models\AccessGrant;
 use App\Models\Customer;
 use App\Models\Order;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class ActivateSimulatedPurchase
 {
     public function __construct(
-        private readonly NetworkAccessProvider $network,
+        private readonly NetworkProviderRegistry $providers,
     ) {}
 
     public function execute(
@@ -60,14 +60,19 @@ class ActivateSimulatedPurchase
                 'reason' => 'payment_confirmed',
             ]);
 
+            $connection = $site->networkConnection()->firstOrCreate(
+                [],
+                ['provider' => 'fake', 'status' => 'unconfigured'],
+            );
+
             $grant = AccessGrant::query()->create([
                 'subscription_id' => $subscription->id,
-                'provider' => 'fake',
+                'provider' => $connection->provider,
             ]);
 
             $grant->update([
                 'status' => 'active',
-                'external_reference' => $this->network->authorize($grant),
+                'external_reference' => $this->providers->for($connection->provider)->authorize($grant, $connection),
                 'authorized_at' => now(),
             ]);
 
