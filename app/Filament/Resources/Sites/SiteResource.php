@@ -6,6 +6,7 @@ use App\Filament\Resources\Sites\Pages\CreateSite;
 use App\Filament\Resources\Sites\Pages\EditSite;
 use App\Filament\Resources\Sites\Pages\ListSites;
 use App\Models\Site;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -38,9 +39,16 @@ class SiteResource extends Resource
                 TextColumn::make('name')->label('Site')->searchable()->sortable(),
                 TextColumn::make('slug')->label('Portail')->searchable(),
                 TextColumn::make('plans_count')->label('Forfaits')->counts('plans'),
+                TextColumn::make('networkConnection.status')->label('Réseau')->badge()->placeholder('Non configuré'),
                 TextColumn::make('created_at')->label('Créé le')->dateTime('d/m/Y H:i')->sortable(),
             ])
-            ->recordActions([EditAction::make()])
+            ->recordActions([
+                Action::make('portal')
+                    ->label('Ouvrir le portail')
+                    ->url(fn (Site $record): string => $record->portal_url)
+                    ->openUrlInNewTab(),
+                EditAction::make(),
+            ])
             ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
 
