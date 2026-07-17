@@ -25,7 +25,7 @@
 <main>
     <div class="brand">MIREV ACCESS</div>
     <h1>Internet,<br>simplement.</h1>
-    <p class="lead">Choisissez votre forfait pour {{ $site->name }}. Le paiement est simulé dans cette première démonstration.</p>
+    <p class="lead">Choisissez votre forfait pour {{ $site->name }}. Payez par Mobile Money pour activer votre accès. En local, la confirmation est simulée.</p>
 
     @if ($errors->any())
         <p class="error">{{ $errors->first() }}</p>
@@ -48,7 +48,7 @@
 
         <label for="phone">Numéro de téléphone</label>
         <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="+237 6..." required>
-        <button type="submit" @disabled($plans->isEmpty())>Simuler le paiement et se connecter</button>
+        <button type="submit" @disabled($plans->isEmpty())>Continuer vers le paiement</button>
     </form>
 </main>
 </body>
