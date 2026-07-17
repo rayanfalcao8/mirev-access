@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Subscription\Actions\ActivateSimulatedPurchase;
+use App\Domain\Payment\Actions\StartCheckout;
 use App\Models\Plan;
 use App\Models\Site;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ClientPortalController extends Controller
@@ -24,7 +23,7 @@ class ClientPortalController extends Controller
     public function purchase(
         Request $request,
         Site $site,
-        ActivateSimulatedPurchase $purchase,
+        StartCheckout $checkout,
     ): RedirectResponse {
         $validated = $request->validate([
             'phone' => ['required', 'string', 'max:30'],
@@ -36,16 +35,13 @@ class ClientPortalController extends Controller
             ->where('is_active', true)
             ->findOrFail($validated['plan_id']);
 
-        $subscription = $purchase->execute(
+        $attempt = $checkout->execute(
             $site,
             $plan,
             $validated['phone'],
-            'sim_'.Str::uuid(),
         );
 
-        return redirect()
-            ->route('client.success', [$site, $subscription])
-            ->with('status', 'Votre accès Internet est activé.');
+        return redirect()->route('payments.show', $attempt);
     }
 
     public function success(Site $site, Subscription $subscription): View
