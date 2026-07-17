@@ -17,4 +17,9 @@ class FakePaymentProvider implements PaymentProvider
     {
         return 'fake_pay_'.Str::uuid();
     }
+
+    public function status(PaymentAttempt $attempt): string
+    {
+        return $attempt->status;
+    }
 }
