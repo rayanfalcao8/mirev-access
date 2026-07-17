@@ -6,6 +6,7 @@ use App\Domain\Access\Contracts\NetworkAccessProvider;
 use App\Domain\Access\Services\NetworkProviderRegistry;
 use App\Domain\Payment\Services\PaymentProviderRegistry;
 use App\Infrastructure\Network\FakeAccessProvider;
+use App\Infrastructure\Payment\CamPayPaymentProvider;
 use App\Infrastructure\Payment\FakePaymentProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,10 +24,12 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(FakePaymentProvider::class);
+        $this->app->singleton(CamPayPaymentProvider::class);
         $this->app->singleton(
             PaymentProviderRegistry::class,
             fn ($app) => new PaymentProviderRegistry([
                 $app->make(FakePaymentProvider::class),
+                $app->make(CamPayPaymentProvider::class),
             ]),
         );
     }
