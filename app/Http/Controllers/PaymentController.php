@@ -11,7 +11,7 @@ class PaymentController extends Controller
 {
     public function show(PaymentAttempt $attempt): View|RedirectResponse
     {
-        $attempt->load(['order.site', 'order.plan', 'order.subscription']);
+        $attempt->load(['order.site', 'order.plan', 'order.customer', 'order.subscription']);
 
         if ($attempt->order->subscription) {
             return redirect()->route('client.success', [
