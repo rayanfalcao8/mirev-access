@@ -22,7 +22,7 @@
     <p>Numéro : {{ $attempt->order->customer->phone }}</p>
     <p>Référence : {{ $attempt->external_reference }}</p>
 
-    @if (app()->environment(['local', 'testing']))
+    @if (app()->environment(['local', 'testing']) && $attempt->provider === 'fake')
         <form method="post" action="{{ route('payments.simulate-success', $attempt) }}">
             @csrf
             <button type="submit">Simuler la confirmation Mobile Money</button>
