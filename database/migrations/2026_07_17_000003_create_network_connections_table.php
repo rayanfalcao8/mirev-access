@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('sites')->orderBy('id')->each(function ($site): void {
+        DB::table('sites')->orderBy('id')->get()->each(function ($site): void {
             DB::table('network_connections')->insert([
                 'site_id' => $site->id,
                 'provider' => 'fake',
