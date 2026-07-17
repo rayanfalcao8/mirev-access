@@ -39,6 +39,7 @@ class ClientPortalController extends Controller
             $site,
             $plan,
             $validated['phone'],
+            (string) config('services.payments.default'),
         );
 
         return redirect()->route('payments.show', $attempt);
